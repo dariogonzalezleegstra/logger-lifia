@@ -17,7 +17,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "babel-eslint": "9.0.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.0",
     "concurrently": "^3.5.0",
@@ -31,7 +30,6 @@
     "nodemon": "^1.11.0",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",
-    "react-scripts": "^1.0.13",
     "sendgrid": "^5.2.3",
     "stripe": "^4.25.0"
   }
