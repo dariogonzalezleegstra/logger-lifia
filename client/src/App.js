@@ -130,7 +130,6 @@ async function sendEvents(e) {
     window.scrollTo(0,document.body.scrollHeight);
 }
 
-
 const handleEvent = e => {
     e.date = new Date();
     events.push(e);
@@ -197,8 +196,8 @@ class App extends Component {
                             <input type="radio" name="genderMan"/>Soy Hombre &nbsp;&nbsp;
                             <input type="radio" name="genderWoman"/>Soy Mujer &nbsp;&nbsp;
                             <input type="radio" name="genderOther"/>Otro
-
-
+                            <p>¿Cuantas horas diarias usas computadora/notebook?</p>
+                            <input type="number"/>
                             <br/>
                             <br/>
                             <button type="button" id="getRecommendation" onClick={e => sendEvents(e)}> Ver recomendación</button>
