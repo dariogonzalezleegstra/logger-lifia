@@ -127,6 +127,7 @@ async function sendEvents(e) {
     recommendedSerie = series[Math.floor(Math.random()*series.length)];
     document.getElementById('recommendedSerie').innerHTML = `Serie recomendada: ${recommendedSerie}`;
     document.getElementById('getRecommendation').disabled = true;
+    window.scrollTo(0,document.body.scrollHeight);
 }
 
 
