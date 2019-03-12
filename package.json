@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-eslint": "9.0.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.0",
     "concurrently": "^3.5.0",
