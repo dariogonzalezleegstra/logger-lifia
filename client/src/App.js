@@ -45,10 +45,15 @@ window.onload = function () {
     window.addEventListener("wheel", handleEvent);
 };
 
+var showResult = false;
+var recommendedSerie = "";
+var series = ["Stranger Things", "Breaking Bad", "Prison Break", "Game of Thrones", "The walking dead", "The sinner",
+"Criminal Minds", "Riverdale", "The rain", "Narcos", "Gossip Girl", "Grey's Anatomy"];
+
 var events = [];
 
 
-async function sendEvents() {
+async function sendEvents(e) {
     let obj = {};
 
 
@@ -119,6 +124,9 @@ async function sendEvents() {
 
     console.log('obj: ', obj);
     await axios.post('/api/logger', obj);
+    recommendedSerie = series[Math.floor(Math.random()*series.length)];
+    document.getElementById('recommendedSerie').innerHTML = `Serie recomendada: ${recommendedSerie}`;
+    document.getElementById('getRecommendation').disabled = true;
 }
 
 
@@ -126,26 +134,6 @@ const handleEvent = e => {
     e.date = new Date();
     events.push(e);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //Client app
@@ -170,59 +158,56 @@ class App extends Component {
         return (
             <div className="App">
 
-                <div>{/*
-
-                react version
-                    <EventListener
-                        //works
-                        target="window" //or document
-                        onCut={this.handleEvent}
-                        onCopy={this.handleEvent}
-                        onPaste={this.handleEvent}
-               //       onMouseMove={this.handleEvent} //or onMouseMoveCapture
-                  //    onClick={this.handleEvent}
-                        onContextMenu={this.handleEvent}
-                  //    onKeyDown={this.handleEvent}
-                  //    onKeyUp={this.handleEvent}
-                  //    onKeyPress={this.handleEvent}
-                        onInput={this.handleEvent}
-                        onResize={this.handleEvent}
-                        onScroll={withOptions(this.handleEvent, {passive: true, capture: false})}
-                        onFocus={this.handleEvent}
-                        onBlur={this.handleEvent}
-
-                        //Check
-                        onWheel={this.handleEvent}
-                        onDrag={this.handleEvent}
-                        onDrop={this.handleEvent}
-                        onInvalid={this.handleEvent}
-                        onSubmit={this.handleEvent}
-                        onDoubleClick={this.handleEvent}
-                        onToggle={this.handleEvent}
-                        onTouchStart={this.handleEvent}
-                        onTouchEnd={this.handleEvent}
-                        onTouchCancel={this.handleEvent}
-                        onTouchMove={this.handleEvent}
-
-                        //Don't work
-                        onChange={this.handleEvent}
-                        onSelect={this.handleEvent}
-                    />
-                    */}
+                <div>
                 </div>
 
                 <header className="App-header">
-                    <h1>Example Website</h1>
-                    <h1>Example Website</h1>
-                    <h1>Example Website</h1>
-                    <select>
-                        <option>option 1</option>
-                        <option>option 2</option>
-                    </select>
-                    <br/>
-                    <br/>
-                    <button onClick={() => sendEvents()}> Save </button>
-                    <h1>Example Website</h1>
+                    {!showResult && <div>
+                        <h1>¡Encuentra tu serie perfecta!</h1>
+                        <form>
+                            <p>¿Dónde ves tus series usualmente?</p>
+                            <select>
+                                <option>Netflix</option>
+                                <option>Amazon</option>
+                                <option>Internet (Buscas gratis)</option>
+                                <option>HBO</option>
+                                <option>TV</option>
+                                <option>Otro</option>
+                            </select>
+                            <p>¿Cuántos capítulos de serie viste esta semana?</p>
+                            <select>
+                                <option>0 a 5</option>
+                                <option>5 a 20</option>
+                                <option>Más de 20</option>
+                            </select>
+                            <p>¿Cuál es tu serie favorita de todos los tiempos?</p>
+                            <input/>
+                            <p>Cuando veo series suelo estar...</p>
+                            <input type="checkbox"/>Solo<br/>
+                            <input type="checkbox"/>Con amigos<br/>
+                            <input type="checkbox"/>Con mi pareja<br/>
+                            <input type="checkbox"/>Otro
+                            <br/>
+                            <br/>
+                            <h3>¡Últimos datos!</h3>
+                            <p>¿Cuál es tu edad?</p>
+                            <input type="number" name="age"/>
+                            <p>¿Cuál es tu género?</p>
+                            <input type="radio" name="genderMan"/>Soy Hombre &nbsp;&nbsp;
+                            <input type="radio" name="genderWoman"/>Soy Mujer &nbsp;&nbsp;
+                            <input type="radio" name="genderOther"/>Otro
+
+
+                            <br/>
+                            <br/>
+                            <button type="button" id="getRecommendation" onClick={e => sendEvents(e)}> Ver recomendación</button>
+                        </form>
+                    </div>}
+                    <div>
+                        <h4>
+                            <p id="recommendedSerie"></p>
+                        </h4>
+                    </div>
                 </header>
             </div>
         );
