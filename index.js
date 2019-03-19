@@ -41,6 +41,7 @@ app.use(passport.session());
     Directamente en una linea podemos hacer:
  */
 require('./routes/public-api/authRoutes')(app);
+require('./routes/api/answers')(app);
 require('./routes/api/logger')(app);
 
 

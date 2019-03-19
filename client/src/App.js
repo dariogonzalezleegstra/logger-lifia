@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import './App.css';
 
+/*
 window.onbeforeunload = function () {
     sendEvents();
     return null;
 };
+f*/
 
 window.onload = function () {
     window.addEventListener("abort", handleEvent);
@@ -53,7 +55,13 @@ var series = ["Stranger Things", "Breaking Bad", "Prison Break", "Game of Throne
 var events = [];
 
 
-async function sendEvents(e) {
+async function sendEvents(answers) {
+    recommendedSerie = series[Math.floor(Math.random()*series.length)];
+    document.getElementById('recommendedSerie').innerHTML = `Serie recomendada: ${recommendedSerie}`;
+    document.getElementById('getRecommendation').disabled = true;
+    window.scrollTo(0,document.body.scrollHeight);
+
+
     let obj = {};
 
 
@@ -122,12 +130,12 @@ async function sendEvents(e) {
     });
     cache = null; // Enable garbage collection
 
-    console.log('obj: ', obj);
-    await axios.post('/api/logger', obj);
-    recommendedSerie = series[Math.floor(Math.random()*series.length)];
-    document.getElementById('recommendedSerie').innerHTML = `Serie recomendada: ${recommendedSerie}`;
-    document.getElementById('getRecommendation').disabled = true;
-    window.scrollTo(0,document.body.scrollHeight);
+    const answersSaved = await axios.post('/api/answers', answers);
+    if (answersSaved) {
+        obj.answers = answersSaved.data;
+        const response = await axios.post('/api/logger', obj);
+    }
+
 }
 
 const handleEvent = e => {
@@ -140,18 +148,44 @@ const handleEvent = e => {
 
 class App extends Component {
 
-    componentDidMount() {
-        /*
-        let counter = 0;
-        document.querySelectorAll('*').forEach((node) => {
-            //Optionally, we can create an <EventListener> for each element of the DOM...
-            counter++;
-        });
-        console.log("Cantidad de elementos en el DOM: " + counter);
-        */
+
+    constructor(props) {
+        super();
+        this.state = {
+            answers: {
+                channel: null,
+                numberOfChapters: null,
+                favouriteSerie: null,
+                accompaniedBy: {
+                    alone: false,
+                    friends: false,
+                    couple: false,
+                    other: false
+                },
+                age: null,
+                gender: null,
+                dailyHoursOfComputerUse: null
+            }
+        }
+    }
 
 
-        //setUpListeners();
+    changeAnswers(e) {
+        const {answers} = this.state;
+        answers[e.target.name] = e.target.value;
+        this.setState({answers});
+    }
+
+    changeGender(e) {
+        const {answers} = this.state;
+        answers.gender = e.target.name;
+        this.setState({answers});
+    }
+
+    changeAccompaniedBy(e) {
+        const {answers} = this.state;
+        answers.accompaniedBy[e.target.name] = e.target.checked;
+        this.setState({answers});
     }
 
     render() {
@@ -166,41 +200,41 @@ class App extends Component {
                         <h1>¡Encuentra tu serie perfecta!</h1>
                         <form>
                             <p>¿Dónde ves tus series usualmente?</p>
-                            <select>
-                                <option>Netflix</option>
-                                <option>Amazon</option>
-                                <option>Internet (Buscas gratis)</option>
-                                <option>HBO</option>
-                                <option>TV</option>
-                                <option>Otro</option>
+                            <select name="channel" onChange={e => this.changeAnswers(e)}>
+                                <option value="netflix">Netflix</option>
+                                <option value="amazon">Amazon</option>
+                                <option value="internet">Internet (Buscas gratis)</option>
+                                <option value="hbo">HBO</option>
+                                <option value="tv">TV por cable / aire</option>
+                                <option value="other">Otro</option>
                             </select>
                             <p>¿Cuántos capítulos de serie viste esta semana?</p>
-                            <select>
+                            <select name="numberOfChapters" onClick={e => this.changeAnswers(e)}>
                                 <option>0 a 5</option>
                                 <option>5 a 20</option>
                                 <option>Más de 20</option>
                             </select>
                             <p>¿Cuál es tu serie favorita de todos los tiempos?</p>
-                            <input/>
+                            <input name="favouriteSerie" onChange={e => this.changeAnswers(e)}/>
                             <p>Cuando veo series suelo estar...</p>
-                            <input type="checkbox"/>Solo<br/>
-                            <input type="checkbox"/>Con amigos<br/>
-                            <input type="checkbox"/>Con mi pareja<br/>
-                            <input type="checkbox"/>Otro
+                            <input name="alone" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Solo<br/>
+                            <input name="friends" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Con amigos<br/>
+                            <input name="couple" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Con mi pareja<br/>
+                            <input name="other" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Otro
                             <br/>
-                            <br/>
+                            <hr/>
                             <h3>¡Últimos datos!</h3>
                             <p>¿Cuál es tu edad?</p>
-                            <input type="number" name="age"/>
+                            <input type="number" name="age" onChange={e => this.changeAnswers(e)}/>
                             <p>¿Cuál es tu género?</p>
-                            <input type="radio" name="genderMan"/>Soy Hombre &nbsp;&nbsp;
-                            <input type="radio" name="genderWoman"/>Soy Mujer &nbsp;&nbsp;
-                            <input type="radio" name="genderOther"/>Otro
+                            <input onChange={e => this.changeGender(e)} type="radio" name="genderMan"/>Soy Hombre &nbsp;&nbsp;
+                            <input onChange={e => this.changeGender(e)} type="radio" name="genderWoman"/>Soy Mujer &nbsp;&nbsp;
+                            <input onChange={e => this.changeGender(e)} type="radio" name="genderOther"/>Otro
                             <p>¿Cuantas horas diarias usas computadora/notebook?</p>
-                            <input type="number"/>
+                            <input name="dailyHoursOfComputerUse" onChange={e => this.changeAnswers(e)} type="number"/>
                             <br/>
                             <br/>
-                            <button type="button" id="getRecommendation" onClick={e => sendEvents(e)}> Ver recomendación</button>
+                            <button type="button" id="getRecommendation" onClick={e => sendEvents(this.state.answers)}> Ver recomendación</button>
                         </form>
                     </div>}
                     <div>
