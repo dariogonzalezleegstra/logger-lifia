@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {record} from 'rrweb';
+import {record, Replayer} from 'rrweb';
 import './App.css';
 
 /*
@@ -9,6 +9,8 @@ window.onbeforeunload = function () {
     return null;
 };
 */
+
+let lastEvents = [];
 
 
 function setUpRRWeb() {
@@ -25,6 +27,7 @@ function setUpRRWeb() {
 // this function will send events to the backend and reset the events array
     function save() {
         const body = JSON.stringify({ events });
+        lastEvents = [...events];
         events = [];
         axios.post('/api/logger/rrweb', body);
     }
@@ -217,6 +220,11 @@ class App extends Component {
         this.setState({answers});
     }
 
+    replay() {
+        const replayer = Replayer(events);
+        replayer.play();
+    }
+
     render() {
         return (
             <div className="App">
@@ -265,8 +273,12 @@ class App extends Component {
                             <br/>
                             <br/>
                             <button type="button" id="getRecommendation" onClick={e => sendEvents(this.state.answers)}> Ver recomendación</button>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <button onClick={() => this.replay()}>Replay</button>
                         </form>
-                    </div>}
+                    </div>}{}
                     <div>
                         <h4>
                             <p id="recommendedSerie"></p>
