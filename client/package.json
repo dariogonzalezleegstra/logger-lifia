@@ -10,7 +10,8 @@
     "react-dom": "^16.6.3",
     "react-event-listener": "^0.6.4",
     "react-scripts": "2.1.1",
-    "rrweb": "^0.7.12"
+    "rrweb": "^0.7.12",
+    "rrweb-player": "^0.3.11"
   },
   "scripts": {
     "start": "react-scripts start",

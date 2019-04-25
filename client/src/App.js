@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {record, Replayer} from 'rrweb';
+import {rrwebPlayer from 'rrweb-player';
 import './App.css';
 
 /*
@@ -223,6 +224,14 @@ class App extends Component {
     replay() {
         const replayer = Replayer(lastEvents);
         replayer.play();
+
+        new rrwebPlayer({
+            target: document.body, // customizable root element
+            data: {
+                events,
+                autoPlay: true,
+            },
+        });
     }
 
     render() {
