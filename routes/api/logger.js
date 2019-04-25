@@ -19,5 +19,6 @@ module.exports = app => {
 
     app.post('/api/logger/rrweb', (req, res, next) => {
         console.log('req.body: ', req.body);
+        res.sendStatus(200);
     });
 };
