@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {record, Replayer} from 'rrweb';
-import {rrwebPlayer from 'rrweb-player';
 import './App.css';
 
 /*
