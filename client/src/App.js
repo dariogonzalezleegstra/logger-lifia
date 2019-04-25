@@ -221,7 +221,7 @@ class App extends Component {
     }
 
     replay() {
-        const replayer = Replayer(events);
+        const replayer = Replayer(lastEvents);
         replayer.play();
     }
 
