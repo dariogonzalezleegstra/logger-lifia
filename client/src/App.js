@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {record} from 'rrweb';
 import './App.css';
 
 /*
@@ -7,9 +8,32 @@ window.onbeforeunload = function () {
     sendEvents();
     return null;
 };
-f*/
+*/
 
-window.onload = function () {
+
+function setUpRRWeb() {
+    let events = [];
+
+    record({
+        emit(event) {
+            // push event into the events array
+            events.push(event);
+        },
+    });
+    console.log(events);
+
+// this function will send events to the backend and reset the events array
+    function save() {
+        const body = JSON.stringify({ events });
+        events = [];
+        axios.post('/api/logger/rrweb', body);
+    }
+
+// save events every 10 seconds
+    setInterval(save, 10 * 1000);
+}
+
+function setUpEventListeners() {
     window.addEventListener("abort", handleEvent);
     window.addEventListener("blur", handleEvent);
     window.addEventListener("change", handleEvent);
@@ -45,6 +69,11 @@ window.onload = function () {
     window.addEventListener("touchstart", handleEvent);
     window.addEventListener("touchend", handleEvent);
     window.addEventListener("wheel", handleEvent);
+}
+
+window.onload = function () {
+    setUpRRWeb();
+    setUpEventListeners();
 };
 
 var showResult = false;
@@ -129,13 +158,13 @@ async function sendEvents(answers) {
         return value;
     });
     cache = null; // Enable garbage collection
-
+/*
     const answersSaved = await axios.post('/api/answers', answers);
     if (answersSaved) {
         obj.answers = answersSaved.data;
         const response = await axios.post('/api/logger', obj);
     }
-
+*/
 }
 
 const handleEvent = e => {
@@ -232,6 +261,7 @@ class App extends Component {
                             <input onChange={e => this.changeGender(e)} type="radio" name="genderOther"/>Otro
                             <p>¿Cuantas horas diarias usas computadora/notebook?</p>
                             <input name="dailyHoursOfComputerUse" onChange={e => this.changeAnswers(e)} type="number"/>
+                            {/*Preguntar nivel de expertise*/}
                             <br/>
                             <br/>
                             <button type="button" id="getRecommendation" onClick={e => sendEvents(this.state.answers)}> Ver recomendación</button>

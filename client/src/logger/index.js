@@ -126,7 +126,7 @@ const sendEvents = () => {
 
     console.log('obj: ', obj);
     axios.post('/api/logger', obj);
-}
+};
 
 
 
