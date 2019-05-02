@@ -26,7 +26,7 @@ function setUpRRWeb() {
 
 // this function will send events to the backend and reset the events array
     function save() {
-        const body = JSON.stringify({ events });
+        const body = JSON.stringify({events});
         lastEvents = lastEvents.concat(events);
         events = [];
         axios.post('/api/logger/rrweb', body);
@@ -82,16 +82,16 @@ window.onload = function () {
 var showResult = false;
 var recommendedSerie = "";
 var series = ["Stranger Things", "Breaking Bad", "Prison Break", "Game of Thrones", "The walking dead", "The sinner",
-"Criminal Minds", "Riverdale", "The rain", "Narcos", "Gossip Girl", "Grey's Anatomy"];
+    "Criminal Minds", "Riverdale", "The rain", "Narcos", "Gossip Girl", "Grey's Anatomy"];
 
 var events = [];
 
 
 async function sendEvents(answers) {
-    recommendedSerie = series[Math.floor(Math.random()*series.length)];
+    recommendedSerie = series[Math.floor(Math.random() * series.length)];
     document.getElementById('recommendedSerie').innerHTML = `Serie recomendada: ${recommendedSerie}`;
     document.getElementById('getRecommendation').disabled = true;
-    window.scrollTo(0,document.body.scrollHeight);
+    window.scrollTo(0, document.body.scrollHeight);
 
 
     let obj = {};
@@ -161,13 +161,13 @@ async function sendEvents(answers) {
         return value;
     });
     cache = null; // Enable garbage collection
-/*
-    const answersSaved = await axios.post('/api/answers', answers);
-    if (answersSaved) {
-        obj.answers = answersSaved.data;
-        const response = await axios.post('/api/logger', obj);
-    }
-*/
+    /*
+        const answersSaved = await axios.post('/api/answers', answers);
+        if (answersSaved) {
+            obj.answers = answersSaved.data;
+            const response = await axios.post('/api/logger', obj);
+        }
+    */
 }
 
 const handleEvent = e => {
@@ -221,10 +221,11 @@ class App extends Component {
     }
 
     replay() {
+        console.log("last events: ", lastEvents);
         const replayer = Replayer(lastEvents);
         replayer.play();
 
-        new rrwebPlayer({
+        Replayer({
             target: document.body, // customizable root element
             data: {
                 events,
@@ -263,8 +264,10 @@ class App extends Component {
                             <input name="favouriteSerie" onChange={e => this.changeAnswers(e)}/>
                             <p>Cuando veo series suelo estar...</p>
                             <input name="alone" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Solo<br/>
-                            <input name="friends" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Con amigos<br/>
-                            <input name="couple" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Con mi pareja<br/>
+                            <input name="friends" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Con
+                            amigos<br/>
+                            <input name="couple" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Con mi
+                            pareja<br/>
                             <input name="other" type="checkbox" onChange={e => this.changeAccompaniedBy(e)}/>Otro
                             <br/>
                             <hr/>
@@ -272,15 +275,19 @@ class App extends Component {
                             <p>¿Cuál es tu edad?</p>
                             <input type="number" name="age" onChange={e => this.changeAnswers(e)}/>
                             <p>¿Cuál es tu género?</p>
-                            <input onChange={e => this.changeGender(e)} type="radio" name="genderMan"/>Soy Hombre &nbsp;&nbsp;
-                            <input onChange={e => this.changeGender(e)} type="radio" name="genderWoman"/>Soy Mujer &nbsp;&nbsp;
+                            <input onChange={e => this.changeGender(e)} type="radio" name="genderMan"/>Soy
+                            Hombre &nbsp;&nbsp;
+                            <input onChange={e => this.changeGender(e)} type="radio" name="genderWoman"/>Soy
+                            Mujer &nbsp;&nbsp;
                             <input onChange={e => this.changeGender(e)} type="radio" name="genderOther"/>Otro
                             <p>¿Cuantas horas diarias usas computadora/notebook?</p>
                             <input name="dailyHoursOfComputerUse" onChange={e => this.changeAnswers(e)} type="number"/>
                             {/*Preguntar nivel de expertise*/}
                             <br/>
                             <br/>
-                            <button type="button" id="getRecommendation" onClick={e => sendEvents(this.state.answers)}> Ver recomendación</button>
+                            <button type="button" id="getRecommendation" onClick={e => sendEvents(this.state.answers)}>
+                                Ver recomendación
+                            </button>
                             <br/>
                             <br/>
                             <br/>
