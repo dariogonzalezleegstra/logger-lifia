@@ -27,7 +27,7 @@ function setUpRRWeb() {
 // this function will send events to the backend and reset the events array
     function save() {
         const body = JSON.stringify({events});
-        lastEvents = lastEvents.concat(events);
+        lastEvents.concat(events);
         events = [];
         axios.post('/api/logger/rrweb', body);
     }
