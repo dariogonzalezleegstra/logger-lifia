@@ -10,9 +10,6 @@ window.onbeforeunload = function () {
 };
 */
 
-let lastEvents = [];
-
-
 function setUpRRWeb() {
     let events = [];
 
@@ -22,13 +19,12 @@ function setUpRRWeb() {
             events.push(event);
         },
     });
-    console.log(events);
+    console.log('events pushed:', events);
 
 // this function will send events to the backend and reset the events array
     function save() {
         const body = JSON.stringify({events});
-        lastEvents.concat(events);
-        events = [];
+       // events = [];
         axios.post('/api/logger/rrweb', body);
     }
 
@@ -221,17 +217,19 @@ class App extends Component {
     }
 
     replay() {
-        console.log("last events: ", lastEvents);
-        const replayer = Replayer(lastEvents);
+        console.log("events: ", events);
+        const replayer = new Replayer(events);
         replayer.play();
 
+        /*
         Replayer({
             target: document.body, // customizable root element
             data: {
-                events,
+                lastEvents,
                 autoPlay: true,
             },
         });
+        */
     }
 
     render() {
@@ -291,7 +289,7 @@ class App extends Component {
                             <br/>
                             <br/>
                             <br/>
-                            <button onClick={() => this.replay()}>Replay</button>
+                            <button type="button" onClick={() => this.replay()}>Replay</button>
                         </form>
                     </div>}{}
                     <div>
