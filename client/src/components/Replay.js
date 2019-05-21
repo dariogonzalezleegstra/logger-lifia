@@ -18,7 +18,7 @@ class Replay extends Component {
     }
 
     async fetchEvents() {
-        const events = await axios.get('/logger/rrweb/fetchAll');
+        const events = await axios.get('/logger/rrweb');
         console.log(events);
 
         let eventsToGoThrough = [];

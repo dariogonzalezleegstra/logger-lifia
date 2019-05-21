@@ -11,28 +11,36 @@ window.onbeforeunload = function () {
 };
 */
 
+let stopRecordingEvents = false;
+
 function setUpRRWeb() {
     let events = [];
 
     record({
         emit(event) {
-            // push event into the events array
-            events.push(event);
+            if (!stopRecordingEvents) {
+                events.push(event);
+            }
         },
     });
     console.log('events pushed:', events);
 
 // this function will send events to the backend and reset the events array
     function save() {
-        const data = JSON.stringify({events});
-       // events = [];
-        axios.post('/api/logger/rrweb', {
-            method: 'post',
-            data,
-            headers: {
-                'Content-Type': 'application/json',
+        if (!stopRecordingEvents) {
+            //hardcoded
+            if (window.location.href === 'http://logger-lifia.herokuapp.com/' || 'http://localhost:3000/') {
+                const data = JSON.stringify({events});
+                // events = [];
+                axios.post('/api/logger/rrweb', {
+                    method: 'post',
+                    data,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
             }
-        });
+        }
     }
 
 // save events every 10 seconds
@@ -96,6 +104,7 @@ async function sendEvents(answers) {
     document.getElementById('getRecommendation').disabled = true;
     window.scrollTo(0, document.body.scrollHeight);
 
+    stopRecordingEvents = true;
 
     let obj = {};
 
