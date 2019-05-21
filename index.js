@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const keys = require('./config/keys');
 //Es solo require porque no ejecutamos nada del archivo
