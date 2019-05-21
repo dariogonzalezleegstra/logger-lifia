@@ -34,19 +34,17 @@ function setUpRRWeb() {
 }
 
 function save() {
-    if (!stopRecordingEvents) {
-        //hardcoded
-        if (window.location.href === 'http://logger-lifia.herokuapp.com/' || 'http://localhost:3000/') {
-            const data = JSON.stringify({events});
-            // events = [];
-            axios.post('/api/logger/rrweb', {
-                method: 'post',
-                data,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-        }
+    //hardcoded
+    if (window.location.href === 'http://logger-lifia.herokuapp.com/' || 'http://localhost:3000/') {
+        const data = JSON.stringify({events});
+        // events = [];
+        axios.post('/api/logger/rrweb', {
+            method: 'post',
+            data,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
     }
 }
 
