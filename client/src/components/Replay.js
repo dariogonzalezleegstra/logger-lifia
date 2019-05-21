@@ -7,6 +7,10 @@ class Replay extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            events: []
+        }
+
     }
 
     componentDidMount() {
@@ -16,18 +20,24 @@ class Replay extends Component {
     async fetchEvents() {
         const events = await axios.get('/logger/rrweb/fetchAll');
         console.log(events);
+        this.setState(prevState => ({
+            events: [...prevState, events.data]
+        }));
     }
 
     replay() {
-        const events = this.props.location.state.events;
-        console.log('ev:', events);
+        const {events} = this.state;
+
         const replayer = new Replayer(events);
         replayer.play();
     }
 
     render() {
         return <div>
-            Replay
+            <button onClick={() => this.replay()}>
+                Replay
+            </button>
+            {console.log(this.state)}
         </div>;
     }
 
