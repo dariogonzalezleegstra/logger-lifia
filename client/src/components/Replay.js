@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Button, Modal} from 'react-bootstrap';
 import {Replayer} from 'rrweb';
 
 
@@ -20,8 +19,6 @@ class Replay extends Component {
     render() {
         return (<div>
             Replay
-
-            <Button variant="primary" onClick={() => this.replay()}>Replay</Button>
         </div>);
     }
 
