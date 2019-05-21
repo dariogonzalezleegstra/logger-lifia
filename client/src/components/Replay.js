@@ -10,7 +10,7 @@ class Replay extends Component {
     }
 
     componentDidMount() {
-        fetchEvents();
+        this.fetchEvents();
     }
 
     async fetchEvents() {
