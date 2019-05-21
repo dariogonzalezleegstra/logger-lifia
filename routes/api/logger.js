@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const model = require('../../models/Log');
+const rrwebModel = require('../models/Rrweb');
 
 module.exports = app => {
     app.post('/api/logger', (req, res, next) => {
@@ -19,6 +20,13 @@ module.exports = app => {
 
     app.post('/api/logger/rrweb', (req, res, next) => {
         console.log('req.body: ', req.body);
-        res.sendStatus(200);
+        let logged;
+        rrwebModel.save((err, saved) => {
+            if (err) console.log(err);
+            console.log('saved: ', saved);
+            logged = saved;
+        }).then(
+            () => res.send(logged)
+        )
     });
 };
