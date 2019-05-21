@@ -30,7 +30,10 @@ function setUpRRWeb() {
 
 
 // save events every 10 seconds
-//    setInterval(save, 10 * 1000);
+    setInterval(function() {
+        if (!stopRecordingEvents) {
+            save
+        }}, 10 * 1000);
 }
 
 function save() {
@@ -174,9 +177,6 @@ async function sendEvents(answers) {
         return value;
     });
     cache = null; // Enable garbage collection
-
-    save();
-
     /*
         const answersSaved = await axios.post('/api/answers', answers);
         if (answersSaved) {
