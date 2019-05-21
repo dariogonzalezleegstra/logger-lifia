@@ -21,7 +21,7 @@ class Replay extends Component {
         const events = await axios.get('/logger/rrweb/fetchAll');
         console.log(events);
         this.setState(prevState => ({
-            events: [...prevState, events.data]
+            events: [...prevState.events, events.data]
         }));
     }
 
