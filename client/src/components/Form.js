@@ -11,10 +11,11 @@ window.onbeforeunload = function () {
 };
 */
 
+
+let events = [];
 let stopRecordingEvents = false;
 
 function setUpRRWeb() {
-    let events = [];
 
     record({
         emit(event) {
@@ -26,26 +27,29 @@ function setUpRRWeb() {
     console.log('events pushed:', events);
 
 // this function will send events to the backend and reset the events array
-    function save() {
-        if (!stopRecordingEvents) {
-            //hardcoded
-            if (window.location.href === 'http://logger-lifia.herokuapp.com/' || 'http://localhost:3000/') {
-                const data = JSON.stringify({events});
-                // events = [];
-                axios.post('/api/logger/rrweb', {
-                    method: 'post',
-                    data,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-            }
-        }
-    }
+
 
 // save events every 10 seconds
-    setInterval(save, 10 * 1000);
+//    setInterval(save, 10 * 1000);
 }
+
+function save() {
+    if (!stopRecordingEvents) {
+        //hardcoded
+        if (window.location.href === 'http://logger-lifia.herokuapp.com/' || 'http://localhost:3000/') {
+            const data = JSON.stringify({events});
+            // events = [];
+            axios.post('/api/logger/rrweb', {
+                method: 'post',
+                data,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+        }
+    }
+}
+
 
 function setUpEventListeners() {
     window.addEventListener("abort", handleEvent);
@@ -105,6 +109,7 @@ async function sendEvents(answers) {
     window.scrollTo(0, document.body.scrollHeight);
 
     stopRecordingEvents = true;
+    console.log("stop recording events: ", stopRecordingEvents);
 
     let obj = {};
 
@@ -173,6 +178,9 @@ async function sendEvents(answers) {
         return value;
     });
     cache = null; // Enable garbage collection
+
+    save();
+
     /*
         const answersSaved = await axios.post('/api/answers', answers);
         if (answersSaved) {
