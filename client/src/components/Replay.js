@@ -37,10 +37,12 @@ class Replay extends Component {
     replay() {
         const {events} = this.state;
 
+        console.log('events: ', events[0].events);
+
         const replayer = new rrwebPlayer({
             target: document.body,
             data: {
-                events: events[0][0].events,
+                events: events[0].events,
                 autoPlay: true
             }
         });
