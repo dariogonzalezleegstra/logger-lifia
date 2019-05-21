@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Replayer} from 'rrweb';
+import rrwebPlayer from 'rrweb-player';
 import axios from 'axios';
 
 
@@ -28,7 +28,13 @@ class Replay extends Component {
     replay() {
         const {events} = this.state;
 
-        const replayer = new Replayer(events[0]);
+        const replayer = new rrwebPlayer({
+            target: document.body,
+            data: {
+                events: events[0],
+                autoPlay: true
+            }
+        });
         replayer.play();
     }
 
