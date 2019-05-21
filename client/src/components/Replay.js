@@ -28,7 +28,7 @@ class Replay extends Component {
     replay() {
         const {events} = this.state;
 
-        const replayer = new Replayer(events);
+        const replayer = new Replayer(events[0]);
         replayer.play();
     }
 

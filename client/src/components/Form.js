@@ -223,13 +223,6 @@ class Form extends Component {
         this.setState({answers});
     }
 
-    replay() {
-        console.log('events: ', events);
-        this.props.history.push({
-           pathname: '/replay',
-           state: {events}
-        });
-    }
 
     render() {
         return (
@@ -292,10 +285,6 @@ class Form extends Component {
                             <button type="button" id="getRecommendation" onClick={e => sendEvents(this.state.answers)}>
                                 Ver recomendación
                             </button>
-                            <br/>
-                            <br/>
-                            <br/>
-                            <button type="button" onClick={() => this.replay()}>Replay</button>
                         </form>
                         {console.log(this.state)}
                     </div>}
