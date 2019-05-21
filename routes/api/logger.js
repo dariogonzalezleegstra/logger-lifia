@@ -18,6 +18,15 @@ module.exports = app => {
         )
     });
 
+    app.get('/api/logger/rrweb/fetchAll', (req, res, next) => {
+        rrwebModel.Rrweb.find({}).then(
+            data => {
+                console.log('data: ', data);
+                res.send(data)
+            }
+        ).catch(next);
+    });
+
     app.post('/api/logger/rrweb', (req, res, next) => {
         console.log('req.body: ', req.body);
         let logged;

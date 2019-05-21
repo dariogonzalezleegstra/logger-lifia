@@ -1,12 +1,21 @@
 import React, {Component} from 'react';
 import {Replayer} from 'rrweb';
-
+import axios from 'axios';
 
 
 class Replay extends Component {
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        fetchEvents();
+    }
+
+    async fetchEvents() {
+        const events = await axios.get('/logger/rrweb/fetchAll');
+        console.log(events);
     }
 
     replay() {
@@ -17,9 +26,9 @@ class Replay extends Component {
     }
 
     render() {
-        return (<div>
+        return <div>
             Replay
-        </div>);
+        </div>;
     }
 
 }
