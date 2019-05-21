@@ -28,6 +28,20 @@ function setUpRRWeb() {
 
 // this function will send events to the backend and reset the events array
 
+    function save() {
+        //hardcoded
+        if (window.location.href === 'http://logger-lifia.herokuapp.com/' || 'http://localhost:3000/') {
+            const data = JSON.stringify({events});
+            // events = [];
+            axios.post('/api/logger/rrweb', {
+                method: 'post',
+                data,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+        }
+    }
 
 // save events every 10 seconds
     setInterval(function() {
@@ -36,20 +50,7 @@ function setUpRRWeb() {
         }}, 10 * 1000);
 }
 
-function save() {
-    //hardcoded
-    if (window.location.href === 'http://logger-lifia.herokuapp.com/' || 'http://localhost:3000/') {
-        const data = JSON.stringify({events});
-        // events = [];
-        axios.post('/api/logger/rrweb', {
-            method: 'post',
-            data,
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-    }
-}
+
 
 
 function setUpEventListeners() {
