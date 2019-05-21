@@ -21,7 +21,7 @@ module.exports = app => {
     app.post('/api/logger/rrweb', (req, res, next) => {
         console.log('req.body: ', req.body);
         let logged;
-        let test = new rrwebModel({events: req.body});
+        let test = new rrwebModel.Rrweb({events: req.body});
         test.save((err, saved) => {
             if (err) console.log(err);
             console.log('saved: ', saved);
