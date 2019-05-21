@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {record, Replayer} from 'rrweb';
-import './App.css';
+import {record} from 'rrweb';
+import Replay from './Replay';
+import './Form.css';
 
 /*
 window.onbeforeunload = function () {
@@ -23,9 +24,15 @@ function setUpRRWeb() {
 
 // this function will send events to the backend and reset the events array
     function save() {
-        const body = JSON.stringify({events});
+        const data = JSON.stringify({events});
        // events = [];
-        axios.post('/api/logger/rrweb', body);
+        axios.post('/api/logger/rrweb', {
+            method: 'post',
+            data,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
     }
 
 // save events every 10 seconds
@@ -174,8 +181,7 @@ const handleEvent = e => {
 
 //Client app
 
-class App extends Component {
-
+class Form extends Component {
 
     constructor(props) {
         super();
@@ -192,7 +198,8 @@ class App extends Component {
                 },
                 age: null,
                 gender: null,
-                dailyHoursOfComputerUse: null
+                dailyHoursOfComputerUse: null,
+                levelOfExpertise: null
             }
         }
     }
@@ -217,19 +224,11 @@ class App extends Component {
     }
 
     replay() {
-        console.log("events: ", events);
-        const replayer = new Replayer(events);
-        replayer.play();
-
-        /*
-        Replayer({
-            target: document.body, // customizable root element
-            data: {
-                lastEvents,
-                autoPlay: true,
-            },
+        console.log('events: ', events);
+        this.props.history.push({
+           pathname: '/replay',
+           state: {events}
         });
-        */
     }
 
     render() {
@@ -254,9 +253,9 @@ class App extends Component {
                             </select>
                             <p>¿Cuántos capítulos de serie viste esta semana?</p>
                             <select name="numberOfChapters" onClick={e => this.changeAnswers(e)}>
-                                <option>0 a 5</option>
-                                <option>5 a 20</option>
-                                <option>Más de 20</option>
+                                <option value="0-5">0 a 5</option>
+                                <option value="5-20">5 a 20</option>
+                                <option value="20+">Más de 20</option>
                             </select>
                             <p>¿Cuál es tu serie favorita de todos los tiempos?</p>
                             <input name="favouriteSerie" onChange={e => this.changeAnswers(e)}/>
@@ -282,6 +281,13 @@ class App extends Component {
                             <input name="dailyHoursOfComputerUse" onChange={e => this.changeAnswers(e)} type="number"/>
                             {/*Preguntar nivel de expertise*/}
                             <br/>
+                            <p>¿Cual considerarías que es tu nivel al usar páginas web?</p>
+                            <select name="levelOfExpertise" onChange={e => this.changeAnswers(e)}>
+                                <option value="beginner">Principiante</option>
+                                <option value="expert">Experto</option>
+                            </select>
+                            <br/>
+                            <br/>
                             <br/>
                             <button type="button" id="getRecommendation" onClick={e => sendEvents(this.state.answers)}>
                                 Ver recomendación
@@ -291,7 +297,8 @@ class App extends Component {
                             <br/>
                             <button type="button" onClick={() => this.replay()}>Replay</button>
                         </form>
-                    </div>}{}
+                        {console.log(this.state)}
+                    </div>}
                     <div>
                         <h4>
                             <p id="recommendedSerie"></p>
@@ -303,4 +310,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Form;

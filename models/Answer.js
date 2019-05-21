@@ -15,7 +15,8 @@ const answerSchema = new Schema ({
     },
     age: {type: String},
     gender: {type: String},
-    dailyHoursOfComputerUse: {type: String}
+    dailyHoursOfComputerUse: {type: String},
+    levelOfExpertise: {type: String}
 });
 
 model.Answer = mongoose.model('answers', answerSchema);
