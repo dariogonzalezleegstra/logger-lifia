@@ -24,7 +24,7 @@ class Replay extends Component {
         let eventsToGoThrough = [];
 
         events.data.forEach((event, index) => {
-            eventsToGoThrough.push(event.events.data);
+            eventsToGoThrough.push(JSON.parse(event.events.data));
         });
 
         console.log(eventsToGoThrough);
