@@ -20,8 +20,17 @@ class Replay extends Component {
     async fetchEvents() {
         const events = await axios.get('/logger/rrweb/fetchAll');
         console.log(events);
+
+        let eventsToGoThrough = [];
+
+        events.data.forEach((event, index) => {
+            eventsToGoThrough.push(event.events.data);
+        });
+
+        console.log(eventsToGoThrough);
+
         this.setState(prevState => ({
-            events: [...prevState.events, events.data]
+            events: eventsToGoThrough
         }));
     }
 
