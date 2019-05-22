@@ -45,6 +45,7 @@ function setUpRRWeb() {
 
 // save events every 10 seconds
     setInterval(function() {
+        console.log(stopRecordingEvents);
         if (!stopRecordingEvents) {
             save()
         }}, 10 * 1000);
