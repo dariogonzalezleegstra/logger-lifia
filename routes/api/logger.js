@@ -18,7 +18,7 @@ module.exports = app => {
         )
     });
 
-    app.get('/logger/rrweb', (req, res, next) => {
+    app.get('/api/logger/rrweb', (req, res, next) => {
         rrwebModel.Rrweb.find({}).then(
             data => {
                 console.log('data: ', data);
