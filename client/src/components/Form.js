@@ -30,7 +30,7 @@ function setUpRRWeb() {
 
     function save() {
         //hardcoded
-        if (window.location.href === 'http://logger-lifia.herokuapp.com/' || 'http://localhost:3000/') {
+        if (window.location.href === 'http://logger-lifia.herokuapp.com/' || window.location.href === 'http://localhost:3000/') {
             const data = JSON.stringify({events});
             // events = [];
             axios.post('/api/logger/rrweb', {
