@@ -12,11 +12,10 @@ window.onbeforeunload = function () {
 */
 
 
-let events = [];
 let stopRecordingEvents = false;
 
 function setUpRRWeb() {
-
+    let events = [];
     record({
         emit(event) {
   //          if (!stopRecordingEvents) {
@@ -106,6 +105,8 @@ var recommendedSerie = "";
 var series = ["Stranger Things", "Breaking Bad", "Prison Break", "Game of Thrones", "The walking dead", "The sinner",
     "Criminal Minds", "Riverdale", "The rain", "Narcos", "Gossip Girl", "Grey's Anatomy"];
 
+
+var events = [];
 
 async function sendEvents(answers) {
     recommendedSerie = series[Math.floor(Math.random() * series.length)];
