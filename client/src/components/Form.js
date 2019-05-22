@@ -19,9 +19,9 @@ function setUpRRWeb() {
 
     record({
         emit(event) {
-            if (!stopRecordingEvents) {
+  //          if (!stopRecordingEvents) {
                 events.push(event);
-            }
+  //          }
         },
     });
     console.log('events pushed:', events);
@@ -44,13 +44,17 @@ function setUpRRWeb() {
     }
 
 // save events every 10 seconds
+
+    /*
     setInterval(function() {
         console.log(stopRecordingEvents);
         if (!stopRecordingEvents) {
             save()
         }}, 10 * 1000);
-}
+    */
 
+    setInterval(save, 10 * 1000);
+}
 
 
 
@@ -109,8 +113,8 @@ async function sendEvents(answers) {
     document.getElementById('getRecommendation').disabled = true;
     window.scrollTo(0, document.body.scrollHeight);
 
-    stopRecordingEvents = true;
-    console.log("stop recording events: ", stopRecordingEvents);
+   // stopRecordingEvents = true;
+   // console.log("stop recording events: ", stopRecordingEvents);
 
     let obj = {};
 
