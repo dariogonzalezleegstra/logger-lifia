@@ -30,7 +30,42 @@ module.exports = app => {
     app.post('/api/logger/rrweb', (req, res, next) => {
         console.log('req.body: ', req.body);
         let logged;
-        let test = new rrwebModel.Rrweb({events: req.body});
+
+        var query = {id: req.body.id},
+            update = {
+                id: req.body.id,
+                name: req.body.name,
+                events: events.concat(req.body.events)
+            },
+            options = {upsert: true};
+
+        rrwebModel.findOneAndUpdate(query, update, options, (error, result) => {
+            if (!error) {
+                //If the document doesn't exist
+                if (!result) {
+                    //Create
+                    result = new rrwebModel(req.body);
+                    console.log('Nuevo elemento creado');
+                } else {
+                    //result.events = result.event.concat(req.body.events);
+                }
+
+
+                result.save((error, saved) => {
+                    if (error) {
+                        throw error;
+                    }
+                })
+            }
+        });
+
+
+        let test = new rrwebModel.Rrweb({
+            events: req.body.events,
+            id: req.body.id,
+            name: req.body.name
+        });
+
         test.save((err, saved) => {
             if (err) console.log(err);
             console.log('saved: ', saved);
