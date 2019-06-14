@@ -34,8 +34,8 @@ module.exports = app => {
         var query = {id: req.body.id},
             update = {
                 id: req.body.id,
-                name: req.body.name,
-                events: events.concat(req.body.events)
+                screencastName: req.body.screencastName,
+                $push: {events: req.body.events}
             },
             options = {upsert: true};
 
@@ -47,7 +47,7 @@ module.exports = app => {
                     result = new rrwebModel(req.body);
                     console.log('Nuevo elemento creado');
                 } else {
-                    //result.events = result.event.concat(req.body.events);
+
                 }
 
 

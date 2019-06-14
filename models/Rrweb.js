@@ -6,7 +6,7 @@ const model = module.exports;
 
 const rrwebSchema = new Schema ({
     id: {type: Object},
-    name: {type: String},
+    screencastName: {type: String},
     events: {type: Object},
     createdAt: {type: Date, default: Date.now}
 }, {collection: 'rrweb', timestamps: true});
