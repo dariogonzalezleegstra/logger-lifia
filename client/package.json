@@ -12,7 +12,7 @@
     "react-event-listener": "^0.6.4",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.1",
+    "react-scripts": "2.1.8",
     "redux": "^4.0.1",
     "rrweb": "^0.7.12",
     "rrweb-player": "^0.3.11"
